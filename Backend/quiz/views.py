@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404
 
 from .models import Quiz, Question, QuizAttempt
@@ -16,6 +17,7 @@ class QuizCreateView(generics.CreateAPIView):
     """
     POST /api/quizzes/
     Create a new quiz with nested questions.
+    Requires authentication.
     
     Validations:
     - Quiz must have at least one question
@@ -23,6 +25,7 @@ class QuizCreateView(generics.CreateAPIView):
     """
     queryset = Quiz.objects.all()
     serializer_class = QuizCreateSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

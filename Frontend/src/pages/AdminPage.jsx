@@ -9,17 +9,28 @@ import {
   Alert,
   CircularProgress,
   Link,
+  AppBar,
+  Toolbar,
 } from '@mui/material';
-import { Add as AddIcon, Send as SendIcon } from '@mui/icons-material';
+import { Add as AddIcon, Send as SendIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import QuestionForm from '../components/QuestionForm';
 import { createQuiz } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 function AdminPage() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [title, setTitle] = useState('');
   const [questions, setQuestions] = useState([]);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successData, setSuccessData] = useState(null);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   const createEmptyQuestion = () => ({
     id: Date.now(),
@@ -130,39 +141,68 @@ function AdminPage() {
 
   if (successData) {
     return (
-      <Container maxWidth="md" className="py-8">
-        <Paper elevation={3} className="p-6">
-          <Alert severity="success" className="mb-4">
-            Quiz created successfully!
-          </Alert>
-          <Typography variant="h6" className="mb-2">
-            Quiz: {successData.title}
-          </Typography>
-          <Typography variant="body1" className="mb-4">
-            Share this link with participants:
-          </Typography>
-          <Box className="bg-gray-100 p-3 rounded mb-4">
-            <Link
-              href={`/quiz/${successData.id}`}
-              target="_blank"
-              rel="noopener"
+      <>
+        <AppBar position="static" className="mb-4">
+          <Toolbar>
+            <Typography variant="h6" className="flex-grow">
+              Quiz Admin
+            </Typography>
+            <Typography variant="body2" className="mr-4">
+              {user?.username}
+            </Typography>
+            <Button color="inherit" startIcon={<LogoutIcon />} onClick={handleLogout}>
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Container maxWidth="md" className="py-8">
+          <Paper elevation={3} className="p-6">
+            <Alert severity="success" className="mb-4">
+              Quiz created successfully!
+            </Alert>
+            <Typography variant="h6" className="mb-2">
+              Quiz: {successData.title}
+            </Typography>
+            <Typography variant="body1" className="mb-4">
+              Share this link with participants:
+            </Typography>
+            <Box className="bg-gray-100 p-3 rounded mb-4">
+              <Link
+                href={`/quiz/${successData.id}`}
+                target="_blank"
+                rel="noopener"
+              >
+                {window.location.origin}/quiz/{successData.id}
+              </Link>
+            </Box>
+            <Button
+              variant="contained"
+              onClick={() => setSuccessData(null)}
             >
-              {window.location.origin}/quiz/{successData.id}
-            </Link>
-          </Box>
-          <Button
-            variant="contained"
-            onClick={() => setSuccessData(null)}
-          >
-            Create Another Quiz
-          </Button>
-        </Paper>
-      </Container>
+              Create Another Quiz
+            </Button>
+          </Paper>
+        </Container>
+      </>
     );
   }
 
   return (
-    <Container maxWidth="md" className="py-8">
+    <>
+      <AppBar position="static" className="mb-4">
+        <Toolbar>
+          <Typography variant="h6" className="flex-grow">
+            Quiz Admin
+          </Typography>
+          <Typography variant="body2" className="mr-4">
+            {user?.username}
+          </Typography>
+          <Button color="inherit" startIcon={<LogoutIcon />} onClick={handleLogout}>
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth="md" className="py-8">
       <Typography variant="h4" component="h1" className="mb-6">
         Create Quiz
       </Typography>
@@ -227,6 +267,7 @@ function AdminPage() {
         </Button>
       </form>
     </Container>
+    </>
   );
 }
 
