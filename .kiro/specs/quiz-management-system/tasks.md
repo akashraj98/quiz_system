@@ -107,7 +107,7 @@
     - commit to git using git mcp
     - _Requirements: 1.2, 1.7, 1.8, 6.5_
 
-- [-] 8. Implement Quiz Page for taking quizzes
+- [x] 8. Implement Quiz Page for taking quizzes
 
   - [x] 8.1 Create QuizPage component
     - Fetch quiz data by ID from URL params
@@ -120,14 +120,14 @@
     - Render True/False questions with radio buttons
     - Track selected answers in state
     - _Requirements: 2.2, 2.3_
-  - [-] 8.3 Implement quiz submission
+  - [x] 8.3 Implement quiz submission
     - Add submit button
     - Collect all answers and call submitQuiz API
     - Handle loading state during submission
     - Commit to git using git mcp
     - _Requirements: 3.1, 6.4_
 
-- [ ] 9. Implement Results Display
+- [x] 9. Implement Results Display
 
   - Create ResultsDisplay component
   - Show total score and percentage

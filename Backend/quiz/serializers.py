@@ -69,6 +69,8 @@ class QuizCreateSerializer(serializers.ModelSerializer):
         quiz = Quiz.objects.create(**validated_data)
         
         for order, question_data in enumerate(questions_data):
+            # Remove 'order' from question_data if present to avoid duplicate keyword argument
+            question_data.pop('order', None)
             Question.objects.create(quiz=quiz, order=order, **question_data)
         
         return quiz
