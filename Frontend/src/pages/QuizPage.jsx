@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { getQuiz, submitQuiz } from '../services/api';
 import QuestionDisplay from '../components/QuestionDisplay';
+import ResultsDisplay from '../components/ResultsDisplay';
 
 function QuizPage() {
   const { id } = useParams();
@@ -101,21 +102,12 @@ function QuizPage() {
     );
   }
 
-  // Results view (after submission) - placeholder for task 9
+  // Results view (after submission)
   if (results) {
     return (
       <Container maxWidth="md" className="py-8">
         <Paper elevation={2} className="p-6">
-          <Typography variant="h4" component="h1" className="mb-4 text-center font-bold">
-            Quiz Results
-          </Typography>
-          <Typography variant="h5" className="text-center mb-4">
-            Score: {results.score} / {results.total_questions} ({results.percentage}%)
-          </Typography>
-          {/* Detailed results will be implemented in task 9 */}
-          <Typography variant="body2" className="text-center text-gray-600">
-            Detailed results will be displayed here.
-          </Typography>
+          <ResultsDisplay results={results} />
         </Paper>
       </Container>
     );
